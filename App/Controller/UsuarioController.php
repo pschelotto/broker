@@ -60,6 +60,7 @@ class UsuarioController extends AdminController
 			'Acceso' => array(
 				'username' => array('label' => 'Usuario'),
 				'password' => array('label' => 'Password', 'type' => 'password'),
+				'tipo_bot' => array('label' => 'Tipo de Bot'),
 			),
 			'Broker' => array(
 				'broker_account' => array('label' => 'Cuenta'),
@@ -70,11 +71,15 @@ class UsuarioController extends AdminController
 			),
 			'Fechas' => array(
 				'payment_at' => array('label' => 'Último pago', 'type' => 'date'),
+				'expires_at' => array('label' => 'Expira el día', 'type' => 'date'),
 			),
 		);
 		
 		if(!$is_new)
+		{
 			$form['Fechas']['created_at'] = array('label' => 'Creado', 'type' => 'datetime-local', 'attrs' => ['disabled'=>'']);
+			$form['Fechas']['updated_at'] = array('label' => 'Actualizado', 'type' => 'datetime-local', 'attrs' => ['disabled'=>'']);
+		}
 
 		return $form;
 	}

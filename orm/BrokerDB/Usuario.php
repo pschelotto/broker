@@ -9,10 +9,13 @@ CREATE TABLE `usuario` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tipo_bot` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `broker_account` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `broker_server` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `telegram` tinyint,
   `payment_at` date DEFAULT NULL,
+  `expires_at` date DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `created_at_idx` (`created_at`)
@@ -32,6 +35,10 @@ CREATE TABLE `usuario` (
 			'type' => 'password',
 			'length' => '255',
 		),
+		'tipo_bot' => array(
+			'type' => 'string',
+			'length' => '255',
+		),
 		'broker_account' => array(
 			'type' => 'string',
 			'length' => '255',
@@ -48,6 +55,16 @@ CREATE TABLE `usuario` (
 			'type' => 'date',
 			'format' => 'Y-m-d',
 			'default' => null
+		),
+		'expires_at' => array(
+			'type' => 'date',
+			'format' => 'Y-m-d',
+			'default' => null
+		),
+		'updated_at' => array(
+			'type' => 'timestamp',
+			'format' => 'Y-m-d H:i:s',
+			'auto' => true,
 		),
 		'created_at' => array(
 			'type' => 'timestamp',

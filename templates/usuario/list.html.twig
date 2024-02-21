@@ -10,10 +10,28 @@
               </div>
               <div class="card-body">
 					<table width='80%'>
-					<tr><th>Username</th><th>Cuenta</th><th>Servidor</th><th>Fecha Pago</th><th>Creado</th><th></th></tr>
+					<tr>
+						<th>Username</th>
+						<th>Tipo de bot</th>
+						<th>Cuenta</th>
+						<th>Servidor</th>
+						<th>Fecha Pago</th>
+						<th>Expira el</th>
+						<th>Actualizado</th>
+						<th>Creado</th>
+						<th></th>
+					</tr>
 					{% for usuario in usuarios %}
 						<tr>
-							<td>{{usuario.username}}</td><td>{{usuario.broker_account}}</td><td>{{usuario.broker_server}}</td><td>{{usuario.payment_at}}</td><td>{{usuario.created_at}}</td><td><a href="usuario/edit?id={{usuario.id}}" class='btn btn-info'>Editar</div></td>
+							<td>{{usuario.username}}</td>
+							<td>{{usuario.tipo_bot}}</td>
+							<td>{{usuario.broker_account}}</td>
+							<td>{{usuario.broker_server}}</td>
+							<td>{{usuario.payment_at}}</td>
+							<td>{{usuario.expires_at}}</td>
+							<td>{{usuario.updated_at}}</td>
+							<td>{{usuario.created_at}}</td>
+							<td><a href="usuario/edit?id={{usuario.id}}" class='btn btn-info'>Editar</div></td>
 						</tr>
 					{% endfor %}
 					</table>
