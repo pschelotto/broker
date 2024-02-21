@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block content%}
+
+        <div class="row">
+          <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+              <div class="card-header">
+                <a class="nav-link" style="float:left" href="javascript:history.back()" data-widget="iframe-scrollleft"><i class="fas fa-angle-double-left"></i></a>
+                <h3 class="card-title" style="line-height: 40px;">Usuario</h3>
+              </div>
+
+  			<form class="form-horizontal" method="post">
+              <div class="card-body">
+					{% include '_form.html.twig' with {col1:'sm-3',col2:'sm-6'} %}
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+				<button type="submit" class="btn btn-info">Enviar</button>
+				<a href="delete?id={{app.request.get.id}}" onclick='return confirm("¿Seguro que desea borrar este usuario?")' class='btn btn-danger' style='float:right'>Borrar</a>
+              </div>
+              <!-- /.card-footer-->
+            </form>
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+
+{% endblock%}

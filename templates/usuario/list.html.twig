@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block content%}
+        <div class="row">
+          <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Usuarios</h3>
+              </div>
+              <div class="card-body">
+					<table width='80%'>
+					<tr><th>Username</th><th>Cuenta</th><th>Servidor</th><th>Fecha Pago</th><th>Creado</th><th></th></tr>
+					{% for usuario in usuarios %}
+						<tr>
+							<td>{{usuario.username}}</td><td>{{usuario.broker_account}}</td><td>{{usuario.broker_server}}</td><td>{{usuario.payment_at}}</td><td>{{usuario.created_at}}</td><td><a href="usuario/edit?id={{usuario.id}}" class='btn btn-info'>Editar</div></td>
+						</tr>
+					{% endfor %}
+					</table>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+					<a href="usuario/new" class='btn btn-info'>Nuevo</a>
+              </div>
+              <!-- /.card-footer-->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+{% endblock %}

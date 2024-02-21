@@ -1,0 +1,21 @@
+{
+    "autoload": {
+	    "psr-4": {
+	        "App\\": "App/",
+	        "orm\\": "orm/"
+	    }
+	},
+    "authors": [
+        {
+            "name": "Pablo Schelotto",
+            "email": "pschelot@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^2.12",
+        "twig/intl-extra": "^3.3"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.4"
+    }
+}

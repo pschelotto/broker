@@ -1,0 +1,27 @@
+{% if errors %}
+	{% set err_map = {
+			(constant('E_ERROR')): "Error",
+			(constant('E_WARNING')): "Warning",
+			(constant('E_PARSE')): "Parse",
+			(constant('E_NOTICE')): "Notice",
+			(constant('E_CORE_ERROR')): "Core Error",
+			(constant('E_CORE_WARNING')): "Core Warning",
+			(constant('E_COMPILE_ERROR')): "Compile Error",
+			(constant('E_COMPILE_WARNING')): "Compile Warning",
+			(constant('E_USER_ERROR')): "User Error",
+			(constant('E_USER_WARNING')): "User Warning",
+			(constant('E_USER_NOTICE')): "User Notice",
+			(constant('E_STRICT')): "Strict",
+			(constant('E_RECOVERABLE_ERROR')): "Recoverable Error",
+			(constant('E_DEPRECATED')): "Deprecated",
+			(constant('E_USER_DEPRECATED')): "User Deprecated",
+			(constant('E_ALL')): "All"
+		}
+	%}
+
+	<ul class='errors'>
+	{% for err in errors %}
+		<li><b>{{ err_map[err.errno] }}</b>: {{ err.errstr }} in <b>{{ err.errfile }}</b> on line <b>{{ err.errline }}</b></li>
+	{% endfor %}
+	</ul>
+{% endif %}

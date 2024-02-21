@@ -1,0 +1,103 @@
+{% set col1 = col1|default('sm-3') %}
+{% set col2 = col2|default('sm-9') %}
+
+{% for card_title,section in form %}
+	<div class="card card-info">
+	  <div class="card-header">
+		<h3 class="card-title">{{ card_title }}</h3>
+	  </div>
+	  <!-- /.card-header -->
+		<div class="card-body">
+		{% for field,field_data in section %}
+		  {% if field_data is not iterable %}
+		  	{% set field = field_data %}
+		  {% endif %}
+		  {% set label = field_data.label|default(labels[field])|default(field) %}
+		  {% set value = object[field] %}
+
+			{% set attrs = '' %}
+			{% if field_data.attrs is defined %}
+				{% for attr_k,attr_v in field_data.attrs %}
+					{% set attrs = attrs ~ ' '~attr_k~'='~attr_v %}
+				{% endfor %}
+			{% endif %}
+
+		{% if field_data.type == 'info' %}
+			{{ field_data.html|raw }}
+		{% else %}
+		  <div class="form-group row row-{{ field }}">
+			{% if field_data.type == 'checkbox' %}
+				{% if not field_data.options.switch|default('') %}
+					<label class="col-{{ col1 }} col-form-label">{{ label }}</label>
+					<div class="col-{{ col2 }} icheck-primary d-inline">
+						<input name="{{ field }}" type="checkbox" id="check_{{ field }}" {{ value ? 'CHECKED' : ''}}/>
+						<label for="check_{{ field }}"></label>
+					</div>
+				{% else %}
+					<label for="check_{{ field }}" class="col-{{ col1 }} col-form-label">{{ label }}</label>
+					<div class="col-{{ col2 }}">
+						<input name="{{ field }}" type="checkbox" class="form-control-sm form-check-input" id="check_{{ field }}" {{ value ? 'CHECKED' : ''}} {{ field_data.options.switch|default('') ? 'data-bootstrap-switch data-off-color="danger" data-on-color="success"' : '' }}/>
+					</div>
+				{% endif %}
+
+			{% elseif field_data.type == 'select' %}
+			<label for="input_{{ field }}" class="col-{{ col1 }} col-form-label">{{ label }}</label>
+			<div class="col-{{ col2 }}">
+				<select id="select_{{ field }}" class="form-control-sm col-6 select2 {{field_data.nullable?'nullable':''}}" name='{{ field }}' {{ attrs }}>
+				{% if field_data.nullable|default(false) %}
+				  <option></option>
+				{% endif %}
+				{% for id,item in field_data.choices %}
+				  <option value="{{ id }}" {{ id==object[field]?'SELECTED':'' }}>{{ item[field_data.field]|default(item) }}</option>
+				{% endfor %}
+				</select>
+			</div>
+
+			{% elseif field_data.type == 'radio' %}
+			<label for="input_{{ field }}" class="col-{{ col1 }} col-form-label">{{ label }}</label>
+			<div class="col-{{ col2 }}">
+				<div class="form-group">
+				{% for id,item in field_data.choices %}
+					<div class="custom-control custom-radio">
+						<input class="custom-control-input" type="radio" id="input_{{ field }}_{{ id }}" name="{{ field }}" value="{{id}}" {{ id==object[field]?'checked':'' }} />
+						<label for="input_{{ field }}_{{ id }}" class="custom-control-label">{{ item }}</label>
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+			
+			{% elseif field_data.type == 'textarea' %}
+			<label for="input_{{ field }}" class="col-{{ col1 }} col-form-label">{{ label }}</label>
+			<div class="col-{{ col2 }}">
+			  <textarea class="form-control-sm" id="input_{{ field }}" name="{{ field }}">{{ value|raw }}</textarea>
+			</div>
+
+			{% elseif field_data.type == 'button' %}
+			<div class="offset-{{ col1 }} col-{{ col2 }}">
+				<input type="button" class="form-button-input form-control-sm" id="button_{{ field }}" value="{{ label|raw }}" {{ attrs }} {{ field_data.call is defined ? ('onclick='~field_data.call~'()') : '' }} />
+			</div>
+
+			{% else %}
+			<label for="input_{{ field }}" class="col-{{ col1 }} col-form-label">{{ label }}</label>
+			<div class="col-{{ col2 }}">
+				{% if field_data.type=='datetime-local' %}
+					{% set value = value|date('Y-m-d\\TH:i:s')%}
+				{% endif %}
+				{% if field_data.type=='date' and value %}
+					{% set value = value|date('Y-m-d')%}
+				{% endif %}
+				{% if field_data.size is defined %}
+					{% set size = 'size="'~field_data.size~'"' %}
+				{% endif %}
+				{% if field_data.type == 'password'%}
+					{% set value = '' %}
+				{% endif %}
+			  <input type="{{ field_data.type|default('text') }}" class="form-control-sm" id="input_{{ field }}" placeholder="{{ field_data.placeholder|default(label) }}" name="{{ field }}" value="{{ value|default(field_data.default|default())|raw }}" {{ field_data.readonly|default()?'readonly':'' }} {{ size }} {{ attrs }} />
+			</div>
+			{% endif %}
+		  </div>
+		{% endif %}
+		{% endfor %}
+		</div>
+	</div>
+{% endfor %}
