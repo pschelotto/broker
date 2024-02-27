@@ -8,20 +8,21 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="{{ asset('/plugins/fontawesome-free/css/all.min.css') }}">
   {% block stylesheets %}
   <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="{{ asset('/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
   <!-- Toastr -->
-  <link rel="stylesheet" href="/plugins/toastr/toastr.min.css">
+  <link rel="stylesheet" href="{{ asset('/plugins/toastr/toastr.min.css') }}">
   {% endblock stylesheets %}
   <!-- Theme style -->
-  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
-  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="{{ asset('/dist/css/adminlte.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
 
 
 </head>
 <body class="layout-fixed sidebar-collapse">
+
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -59,17 +60,17 @@
 
 {% block javascripts %}
   <!-- jQuery -->
-  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="{{ asset('/plugins/jquery/jquery.min.js') }}"></script>
   <!-- Bootstrap 4 -->
-  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ asset('/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <!-- overlayScrollbars -->
-  <script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="{{ asset('/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
   <!-- AdminLTE App -->
-  <script src="/dist/js/adminlte.min.js"></script>
+  <script src="{{ asset('/dist/js/adminlte.min.js') }}"></script>
   <!-- Toastr -->
-  <script src="/plugins/toastr/toastr.min.js"></script>
+  <script src="{{ asset('/plugins/toastr/toastr.min.js') }}"></script>
   <!-- Bootstrap Switch -->
-  <script src="/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+  <script src="{{ asset('/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
   {% if app.flash %}
   <script>
   	var flash = {{ app.flash|json_encode|raw }};

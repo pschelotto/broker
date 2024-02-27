@@ -12,18 +12,19 @@ class Controller
 	{
 		ini_set('memory_limit',-1);
 
-		if(strstr($_SERVER['APPLICATION_ENV']??null,'backend')===false)
-//				throw new \Exception("Path not found");
-			exit;
-
 		$loader = new FilesystemLoader('../templates');
 		$twig = new Environment($loader,array(
 			'debug' => true,
 		));
 		$twig->addExtension(new \App\Lib\TwigExtensions\DebugExtension());
+		$twig->addExtension(new \App\Lib\TwigExtensions\AssetExtension());
 		$twig->addExtension(new IntlExtension());
 
-		set_error_handler(function($errno, $errstr, $errfile, $errline, $errcontext){
+		set_error_handler(function($errno, $errstr, $errfile, $errline, $errcontext=null){
+
+			if($errno==E_DEPRECATED)
+				return;
+		
 			$this->errors[] = array(
 				'errno' => $errno,
 				'errstr' => $errstr,

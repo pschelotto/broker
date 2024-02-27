@@ -33,14 +33,14 @@
 							<td>{{usuario.expires_at}}</td>
 							<td>{{usuario.updated_at}}</td>
 							<td>{{usuario.created_at}}</td>
-							<td><a href="usuario/edit?id={{usuario.id}}" class='btn btn-info'>Editar</div></td>
+							<td><a href="{{path('usuario/edit')}}?id={{usuario.id}}" class='btn btn-info'>Editar</div></td>
 						</tr>
 					{% endfor %}
 					</table>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-					<a href="usuario/new" class='btn btn-info'>Nuevo</a>
+					<a href="{{path('usuario/new')}}" class='btn btn-info'>Nuevo</a>
               </div>
               <!-- /.card-footer-->
             </div>

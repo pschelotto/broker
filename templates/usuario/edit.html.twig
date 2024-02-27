@@ -2,7 +2,7 @@
 
 {% block title %}Usuario {{object.username}} {% endblock %}
 
-{% block content%}
+{% block content %}
 
         <div class="row">
           <div class="col-12">
@@ -20,7 +20,9 @@
               <!-- /.card-body -->
               <div class="card-footer">
 				<button type="submit" class="btn btn-info">Enviar</button>
+				{% if object %}
 				<a href="delete?id={{app.request.get.id}}" onclick='return confirm("¿Seguro que desea borrar este usuario?")' class='btn btn-danger' style='float:right'>Borrar</a>
+				{% endif %}
               </div>
               <!-- /.card-footer-->
             </form>

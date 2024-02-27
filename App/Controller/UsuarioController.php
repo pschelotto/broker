@@ -21,16 +21,17 @@ class UsuarioController extends AdminController
 
 		if($_POST)
 		{
+
 			if($object = $this->bind($form, $_POST, '\orm\BrokerDB\Usuario'))
 			{
 				$object->save();
-				$this->redirect('/');
+				$this->redirect(preg_replace('/[^\/]+$/','',$_SERVER['SCRIPT_URI']??'/'));
 			}
 		}
 
 		return $this->render('usuario/edit.html.twig',[
 			'form' => $form,
-		]);		
+		]);
 	}
 
 	public function edit($params)
@@ -44,7 +45,7 @@ class UsuarioController extends AdminController
 			if($object = $this->bind($form, $_POST, $object))
 			{
 				$object->save();
-				$this->redirect('/');
+				$this->redirect(preg_replace('/[^\/]+$/','',$_SERVER['SCRIPT_URI']??'/'));
 			}
 		}
 
@@ -103,6 +104,6 @@ class UsuarioController extends AdminController
 	{
 		$object = Usuario::find($params['id']);
 		$object->delete();
-		$this->redirect('/');
+		$this->redirect(preg_replace('/[^\/]+$/','',$_SERVER['SCRIPT_URI']??'/'));
 	}
 }

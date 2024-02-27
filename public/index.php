@@ -2,6 +2,7 @@
 
 ini_set('display_errors',1);
 error_reporting(E_ALL);
+//error_reporting(E_ALL ^ E_DEPRECATED);
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../App/Lib/globals.php';
@@ -14,9 +15,14 @@ use App\Lib\Config;
 
 
 //try{
-
+/*
 	Router::on('/([^/]+)(?:/([^/]+))?', function (Request $req, Response $res) {
 		Router::ResolveController($req);
+	});
+*/
+	Router::on('/([^/]+)(?:/([^/]+))?', function (Request $req, Response $res) {
+		Router::ResolveController($req);
+		exit;
 	});
 
 	Router::get('/', function (Request $req, Response $res) {

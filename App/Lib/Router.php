@@ -26,8 +26,10 @@ class Router
         $params = (stripos($params, "/") !== 0) ? "/" . $params : $params;
         $regex = str_replace('/', '\/', $regex);
 
-        $is_match = preg_match('/^' . ($regex) . '$/', $params, $matches, PREG_OFFSET_CAPTURE);
-
+//        $is_match = preg_match('/^' . ($regex) . '$/', $params, $matches, PREG_OFFSET_CAPTURE);
+        if(!$is_match = preg_match('/' . ($regex) . '$/', $params, $matches, PREG_OFFSET_CAPTURE))
+        	$is_match = preg_match('/' . ($regex) . '\?/', $params, $matches, PREG_OFFSET_CAPTURE);
+        
         if ($is_match) {
             // first value is normally the route, lets remove it
             array_shift($matches);
@@ -35,6 +37,7 @@ class Router
             $params = array_map(function ($param) {
                 return $param[0];
             }, $matches);
+
             $cb(new Request($params), new Response());
         }
     }
@@ -47,13 +50,16 @@ class Router
 		else
 			list($action_args) = $req->params;
 
-
 		$args = null;
 		if(preg_match('/(.*?)\?(.*)/',$action_args,$match))
 			list($nil,$action,$args) = $match;
 		else
+		{
+			$args = "";
 			$action = $action_args;
+		}
 
+		$params = null;
 		parse_str($args,$params);
 		if(isset($params['_']))
 			unset($params['_']);

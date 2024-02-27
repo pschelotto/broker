@@ -709,9 +709,12 @@ class carritusORM implements \ArrayAccess
 					}
 				}
 			} catch (\Exception $e) {
-				file_put_contents( Config::get('LOG_PATH','log').'/query.err', $query );
-				echo "\nERROR runing query: $query\n".$e->getMessage().";\n";
-				throw $e;
+				if(!self::checkTableAutoCreate($e->getMessage()))
+				{
+					file_put_contents( Config::get('LOG_PATH','log').'/query.err', $query );
+					echo "\nERROR runing query: $query\n".$e->getMessage().";\n";
+					throw $e;
+				}
 			}
 
 			$error_info = $dbh->errorInfo();
@@ -720,15 +723,8 @@ class carritusORM implements \ArrayAccess
 			if( $sth )
 				break;
 			else
-				if(preg_match("/Table '(.*?)' doesn't exist/",$error_info[2]??''))
-				{
-					$clase = get_called_class();
-					if($clase::$create_table_str??null)
-					{
-						self::query($clase::$create_table_str);
-						continue;
-					}
-				}		
+				if(self::checkTableAutoCreate($error_info[2]))
+					continue;
 
 			if(strncasecmp($query,'create ',7)==0)
 				break;
@@ -769,6 +765,21 @@ class carritusORM implements \ArrayAccess
 
 		}
 	}
+
+	protected static function checkTableAutoCreate($info='')
+	{
+		if(preg_match("/Table '(.*?)' doesn't exist/",$info))
+		{
+			$clase = get_called_class();
+			if($clase::$create_table_str??null)
+			{
+				self::query($clase::$create_table_str);
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	public static function start_transaction() {
 		$dbh = self::get_dbh();
@@ -953,7 +964,7 @@ class carritusORM implements \ArrayAccess
 		return $obj;
 	}
 
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value): void {
         if (is_null($offset)) {
             $this->_data[] = $value;
         } else {
@@ -967,11 +978,11 @@ class carritusORM implements \ArrayAccess
 		return isset($this->_data[$offset]) ? $this->get($offset) : null;
 	}
 
-	public function offsetExists($offset) {
+	public function offsetExists($offset): bool {
 		return isset($this->_data[$offset]);
 	}
 
-	public function offsetUnset($offset) {
+	public function offsetUnset($offset): void {
 		unset($this->_data[$offset]);
 	}
 
