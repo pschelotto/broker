@@ -15,6 +15,7 @@ CREATE TABLE `usuario` (
   `telegram` tinyint,
   `payment_at` date DEFAULT NULL,
   `expires_at` date DEFAULT NULL,
+  `data` text DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -60,6 +61,9 @@ CREATE TABLE `usuario` (
 			'type' => 'date',
 			'format' => 'Y-m-d',
 			'default' => null
+		),
+		'data' => array(
+			'type' => 'text',
 		),
 		'updated_at' => array(
 			'type' => 'timestamp',

@@ -431,8 +431,13 @@ class carritusORM implements \ArrayAccess
 		}
 
 		foreach($values as $col => $val)
+		{
 			if($col!='id')
 				$col_val[] = "$col = $val";
+		}
+		
+		if(self::getColumns()['updated_at']['auto'])
+			$col_val[] = "updated_at = now()";
 
 		//preupdate
 		$q = "UPDATE ".$tableName." SET ".implode(',',$col_val)." WHERE id=".$this->_data['id'];
@@ -709,7 +714,7 @@ class carritusORM implements \ArrayAccess
 					}
 				}
 			} catch (\Exception $e) {
-				if(!self::checkTableAutoCreate($e->getMessage()))
+				if(!self::checkTableAutoCreate($e->getMessage()) || !self::checkTableAutoUpdate($e->getMessage()))
 				{
 					file_put_contents( Config::get('LOG_PATH','log').'/query.err', $query );
 					echo "\nERROR runing query: $query\n".$e->getMessage().";\n";
@@ -723,8 +728,12 @@ class carritusORM implements \ArrayAccess
 			if( $sth )
 				break;
 			else
+			{
 				if(self::checkTableAutoCreate($error_info[2]))
 					continue;
+				if(self::checkTableAutoUpdate($error_info[2]))
+					continue;
+			}
 
 			if(strncasecmp($query,'create ',7)==0)
 				break;
@@ -780,6 +789,23 @@ class carritusORM implements \ArrayAccess
 		return false;
 	}
 
+	protected static function checkTableAutoUpdate($info='')
+	{
+		if(preg_match('/Unknown column \'(.*?)\.(.*?)\' in \'field list\'/',$info, $match))
+		{
+			list($nil,$table_name,$new_column_name) = $match;
+
+			$clase = get_called_class();
+			if($str = $clase::$create_table_str??null)
+			{
+				$data_type = preg_match_1("/`$new_column_name` (.*?)[,\n]/s",$str);
+
+				self::query("ALTER TABLE $table_name ADD COLUMN $new_column_name $data_type");
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public static function start_transaction() {
 		$dbh = self::get_dbh();

@@ -177,3 +177,8 @@ input[type="datetime-local"][disabled]::-webkit-calendar-picker-indicator {
 .content-header {
     padding: 8px 0.5rem;
 }
+
+textarea{
+	width:100%;
+	min-height:65px;
+}

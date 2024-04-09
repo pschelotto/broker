@@ -69,6 +69,7 @@ class UsuarioController extends AdminController
 			),
 			'Configuración' =>array(
 				'telegram' => array('label' => 'Telegram', 'type' => 'checkbox', 'options' => ['switch' => true]),
+				'data' => array('label' => 'datos', 'type' => 'textarea')
 			),
 			'Fechas' => array(
 				'payment_at' => array('label' => 'Último pago', 'type' => 'date'),

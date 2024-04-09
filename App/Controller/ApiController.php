@@ -9,7 +9,7 @@ class ApiController extends Controller
 {
 	public function index($params)
 	{
-		if(!$user = Usuario::findOneBy(['username'=> $params['username'], 'password' => CarritusORM::codificar($params['password'])]))
+		if(!$user = Usuario::findOneBy(['username'=> $_POST['username'], 'password' => $_POST['password']]))
 			$data = ['status' => 'error'];
 		else
 		{

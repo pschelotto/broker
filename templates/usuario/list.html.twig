@@ -19,6 +19,8 @@
 						<th>Servidor</th>
 						<th>Fecha Pago</th>
 						<th>Expira el</th>
+						<th>Telegram</th>
+						<th>Datos</th>
 						<th>Actualizado</th>
 						<th>Creado</th>
 						<th></th>
@@ -31,6 +33,8 @@
 							<td>{{usuario.broker_server}}</td>
 							<td>{{usuario.payment_at}}</td>
 							<td>{{usuario.expires_at}}</td>
+							<td>{{usuario.telegram?'Si':'No'}}</td>
+							<td>{{usuario.data}}</td>
 							<td>{{usuario.updated_at}}</td>
 							<td>{{usuario.created_at}}</td>
 							<td><a href="{{path('usuario/edit')}}?id={{usuario.id}}" class='btn btn-info'>Editar</div></td>
